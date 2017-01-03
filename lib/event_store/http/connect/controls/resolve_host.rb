@@ -4,8 +4,8 @@ module EventStore
       module Controls
         module ResolveHost
           def self.configure(receiver, host: nil, ip_addresses: nil)
-            host ||= Controls::Hostname.example
-            ip_addresses ||= [Controls::IPAddress.example]
+            host ||= Hostname.example
+            ip_addresses ||= [IPAddress.example]
 
             resolve_host = SubstAttr::Substitute.(:resolve_host, receiver)
             resolve_host.set host, ip_addresses

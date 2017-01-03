@@ -3,11 +3,9 @@ require_relative '../automated_init'
 context "Connecting To EventStore Cluster, All Members Are Available" do
   host = Controls::Cluster::Hostname.example
 
-  ip_addresses = Controls::Cluster::IPAddress.list
-
   connect = EventStore::HTTP::Connect.build
 
-  Controls::ResolveHost.configure connect, host: host, ip_addresses: ip_addresses
+  Controls::Cluster::ResolveHost.configure connect
 
   connection = connect.(host)
 
@@ -16,8 +14,10 @@ context "Connecting To EventStore Cluster, All Members Are Available" do
   end
 
   test "Connection is established with first IP address returned by DNS query" do
+    control_ip_address = Controls::Cluster::IPAddress.example 1
+
     assert connection do
-      connected? ip_address: ip_addresses[0]
+      connected? ip_address: control_ip_address
     end
   end
 end

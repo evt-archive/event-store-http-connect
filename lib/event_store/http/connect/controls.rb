@@ -8,6 +8,7 @@ require 'event_store/http/connect/controls/ip_address/unavailable'
 
 require 'event_store/http/connect/controls/cluster/hostname'
 require 'event_store/http/connect/controls/cluster/ip_address'
+require 'event_store/http/connect/controls/cluster/resolve_host'
 require 'event_store/http/connect/controls/cluster/size'
 
 require 'event_store/http/connect/controls/host'

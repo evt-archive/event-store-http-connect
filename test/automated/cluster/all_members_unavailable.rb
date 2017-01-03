@@ -7,7 +7,7 @@ context "Connecting To EventStore Cluster, All Members Are Unavailable" do
 
   connect = EventStore::HTTP::Connect.build
 
-  Controls::ResolveHost.configure connect, host: host, ip_addresses: ip_addresses
+  Controls::Cluster::ResolveHost.configure connect, ip_addresses: ip_addresses
 
   test "Connection error is raised" do
     assert proc { connect.(host) } do
