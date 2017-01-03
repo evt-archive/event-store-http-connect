@@ -4,7 +4,7 @@ module EventStore
       module Controls
         module Port
           def self.example
-            2113
+            Connect::Defaults.port
           end
         end
       end

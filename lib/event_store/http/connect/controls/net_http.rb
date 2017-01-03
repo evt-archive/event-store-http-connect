@@ -16,6 +16,20 @@ module EventStore
           def self.port
             Port.example
           end
+
+          module Defaults
+            def self.keep_alive_timeout
+              2
+            end
+
+            def self.open_timeout
+              60
+            end
+
+            def self.read_timeout
+              60
+            end
+          end
         end
       end
     end

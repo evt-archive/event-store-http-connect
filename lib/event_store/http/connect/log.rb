@@ -3,8 +3,7 @@ module EventStore
     class Connect
       class Log < ::Log
         def tag!(tags)
-          tags << :event_store_http_log
-          tags << :db_connection
+          tags << :event_store_http_connect
           tags << :verbose
         end
       end
