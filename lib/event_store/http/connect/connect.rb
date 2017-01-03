@@ -88,17 +88,11 @@ module EventStore
       def resolve_ip_address(host)
         logger.trace { "Resolving IP address from host (Host: #{host})" }
 
-        if host == Loopback.hostname
-          ip_address = Loopback.ip_address
-          logger.debug { "Loopback hostname specified; returning loopback address (Host: #{host}, IPAddress: #{ip_address})" }
-          return [ip_address]
-        end
-
         ip_addresses = resolve_host.(host) do |dns_resolver|
           dns_resolver.timeouts = open_timeout
         end
 
-        logger.debug { "Resolved IP address from host (Host: #{host}, IPAddresses: #{ip_address.inspect})" }
+        logger.debug { "Resolved IP address from host (Host: #{host}, IPAddresses: #{ip_addresses.inspect})" }
 
         ip_addresses
       end

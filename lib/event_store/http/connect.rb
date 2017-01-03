@@ -5,7 +5,6 @@ require 'dns/resolve_host'
 require 'event_store/http/connect/log'
 
 require 'event_store/http/connect/defaults'
-require 'event_store/http/connect/loopback'
 require 'event_store/http/connect/net_http'
 require 'event_store/http/connect/settings'
 
