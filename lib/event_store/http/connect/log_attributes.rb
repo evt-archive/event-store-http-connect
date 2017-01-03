@@ -10,7 +10,7 @@ module EventStore
           end
 
           connect.instance_exec do
-            "Host: #{host_text}, Port: #{port}, KeepAliveTimeout: #{keep_alive_timeout}, ReadTimeout: #{read_timeout || '(default)'}, OpenTimeout: #{open_timeout || '(default)'}, ContinueTimeout: #{continue_timeout || '(none)'}"
+            "Host: #{host_text}, Port: #{port}, KeepAliveTimeout: #{keep_alive_timeout || '(default)'}, ReadTimeout: #{read_timeout || '(default)'}, OpenTimeout: #{open_timeout || '(default)'}, ContinueTimeout: #{continue_timeout || '(none)'}"
           end
         end
       end
