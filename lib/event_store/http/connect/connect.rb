@@ -27,7 +27,7 @@ module EventStore
         instance.(host)
       end
 
-      def call(host=nil)
+      def call(host=nil, &block)
         log_attributes = LogAttributes.get self, host: host
 
         host ||= self.host
@@ -47,6 +47,14 @@ module EventStore
           error_message = "Could not connect to EventStore (#{log_attributes}, Error: #{error.class})"
           logger.error error_message
           raise ConnectionError, error
+        end
+
+        unless block.nil?
+          begin
+            block.(net_http)
+          ensure
+            net_http.finish
+          end
         end
 
         logger.info { "HTTP connection to EventStore established (#{log_attributes})" }
