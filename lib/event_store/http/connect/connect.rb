@@ -3,6 +3,8 @@ module EventStore
     class Connect
       include Log::Dependency
 
+      configure :connect
+
       setting :host
       setting :port
 
@@ -20,9 +22,9 @@ module EventStore
         instance
       end
 
-      def self.call(*arguments)
-        instance = build *arguments
-        instance.()
+      def self.call(settings=nil, namespace: nil, host: nil)
+        instance = build settings, namespace: namespace
+        instance.(host)
       end
 
       def call(host=nil)
