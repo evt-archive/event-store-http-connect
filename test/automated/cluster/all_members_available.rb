@@ -1,14 +1,13 @@
 require_relative '../automated_init'
 
 context "Connecting To EventStore Cluster, All Members Are Available" do
-  host = Controls::Host::Cluster.example
+  host = Controls::Cluster::Hostname.example
 
-  ip_addresses = Controls::IPAddress::Cluster.list
+  ip_addresses = Controls::Cluster::IPAddress.list
 
   connect = EventStore::HTTP::Connect.build
 
-  resolve_host = SubstAttr::Substitute.(:resolve_host, connect)
-  resolve_host.set host, ip_addresses
+  Controls::ResolveHost.configure connect, host: host, ip_addresses: ip_addresses
 
   connection = connect.(host)
 

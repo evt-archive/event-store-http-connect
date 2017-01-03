@@ -11,12 +11,6 @@ module EventStore
             end
           end
 
-          module Cluster
-            def self.example
-              Hostname.example 'cluster'
-            end
-          end
-
           module Localhost
             def self.example
               'localhost'

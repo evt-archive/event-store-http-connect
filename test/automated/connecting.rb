@@ -2,7 +2,11 @@ require_relative './automated_init'
 
 context "Connecting To EventStore HTTP Interface" do
   context do
-    connection = EventStore::HTTP::Connect.()
+    connect = EventStore::HTTP::Connect.build
+
+    Controls::ResolveHost.configure connect
+
+    connection = connect.()
 
     test "Net::HTTP instance is returned" do
       assert connection.instance_of?(Net::HTTP)
@@ -35,7 +39,11 @@ context "Connecting To EventStore HTTP Interface" do
       :host => Controls::Hostname.example
     })
 
-    connection = EventStore::HTTP::Connect.(settings)
+    connect = EventStore::HTTP::Connect.build settings
+
+    Controls::ResolveHost.configure connect
+
+    connection = connect.()
 
     test "EventStore default for external HTTP (2113) is used" do
       assert connection do
@@ -50,7 +58,11 @@ context "Connecting To EventStore HTTP Interface" do
       :port => Controls::Port.example
     })
 
-    connection = EventStore::HTTP::Connect.(settings)
+    connect = EventStore::HTTP::Connect.build settings
+
+    Controls::ResolveHost.configure connect
+
+    connection = connect.()
 
     test "Continue timeout is not set" do
       assert connection.continue_timeout == nil

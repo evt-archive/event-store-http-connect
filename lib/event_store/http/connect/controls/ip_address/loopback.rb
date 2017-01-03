@@ -3,8 +3,10 @@ module EventStore
     class Connect
       module Controls
         module IPAddress
-          def self.example
-            Loopback.example
+          module Loopback
+            def self.example
+              '127.0.0.1'
+            end
           end
         end
       end

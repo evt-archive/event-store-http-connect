@@ -3,6 +3,8 @@ require_relative './automated_init'
 context "Connecting To EventStore HTTP Interface, Block Is Passed" do
   connect = EventStore::HTTP::Connect.build
 
+  Controls::ResolveHost.configure connect
+
   context do
     connection = nil
 

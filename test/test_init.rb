@@ -13,3 +13,5 @@ require 'pp'
 Controls = EventStore::HTTP::Connect::Controls
 
 Net::HTTP.send :const_set, :Assertions, EventStore::HTTP::Connect::NetHTTP::Assertions
+
+Controls::IPAddress::Loopback::Alias::VerifyAll.() or exit 1

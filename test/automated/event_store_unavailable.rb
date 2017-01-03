@@ -1,7 +1,7 @@
 require_relative './automated_init'
 
 context "EventStore Is Unavailable" do
-  host = Controls::Host::Unavailable.example
+  host = Controls::IPAddress::Unavailable.example
 
   connect = EventStore::HTTP::Connect.build
 

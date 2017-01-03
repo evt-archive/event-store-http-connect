@@ -2,9 +2,11 @@ module EventStore
   module HTTP
     class Connect
       module Controls
-        module IPAddress
-          def self.example
-            Loopback.example
+        module Cluster
+          module Size
+            def self.example
+              3
+            end
           end
         end
       end

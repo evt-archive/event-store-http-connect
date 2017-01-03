@@ -1,9 +1,11 @@
 require_relative './automated_init'
 
 context "Host Is Specified" do
-  host = Controls::Host.example
+  host = Controls::Host::Other.example
 
   connect = EventStore::HTTP::Connect.build
+
+  Controls::ResolveHost.configure connect, host: host
 
   connection = connect.(host)
 

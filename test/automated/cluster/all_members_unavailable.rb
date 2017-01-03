@@ -1,14 +1,13 @@
 require_relative '../automated_init'
 
 context "Connecting To EventStore Cluster, All Members Are Unavailable" do
-  host = Controls::Host::Cluster.example
+  host = Controls::Cluster::Hostname.example
 
-  ip_addresses = Controls::IPAddress::Cluster::Unavailable.list
+  ip_addresses = Controls::Cluster::IPAddress::Unavailable.list
 
   connect = EventStore::HTTP::Connect.build
 
-  resolve_host = SubstAttr::Substitute.(:resolve_host, connect)
-  resolve_host.set host, ip_addresses
+  Controls::ResolveHost.configure connect, host: host, ip_addresses: ip_addresses
 
   test "Connection error is raised" do
     assert proc { connect.(host) } do

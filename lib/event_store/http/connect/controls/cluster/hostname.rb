@@ -2,14 +2,10 @@ module EventStore
   module HTTP
     class Connect
       module Controls
-        module Host
-          def self.example
-            Hostname.example
-          end
-
-          module Other
+        module Cluster
+          module Hostname
             def self.example
-              IPAddress.example
+              Controls::Hostname.example 'cluster'
             end
           end
         end
