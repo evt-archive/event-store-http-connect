@@ -19,13 +19,13 @@ context "Connected predicate" do
     end
   end
 
-  context "Host is specified" do
+  context "IP address is specified" do
     net_http = Controls::NetHTTP.example
 
     context "Specified host does not match that of connection" do
       test "True is returned" do
         refute net_http do
-          connected? host: 'other-host'
+          connected? ip_address: 'other-host'
         end
       end
     end
@@ -34,7 +34,7 @@ context "Connected predicate" do
       context "Connection is open" do
         test "True is returned" do
           assert net_http do
-            connected? host: Controls::NetHTTP.host
+            connected? ip_address: Controls::IPAddress.example
           end
         end
       end
@@ -44,7 +44,7 @@ context "Connected predicate" do
 
         test "False is returned" do
           refute net_http do
-            connected? host: Controls::NetHTTP.host
+            connected? ip_address: Controls::IPAddress.example
           end
         end
       end
@@ -76,7 +76,7 @@ context "Connected predicate" do
 
         test "False is returned" do
           refute net_http do
-            connected? host: Controls::NetHTTP.port
+            connected? port: Controls::NetHTTP.port
           end
         end
       end

@@ -3,8 +3,24 @@ module EventStore
     class Connect
       module Controls
         module Hostname
-          def self.example
-            'localhost'
+          def self.example(suffix=nil)
+            if suffix.nil?
+              'eventstore.local'
+            else
+              "eventstore-#{suffix}.local"
+            end
+          end
+
+          module Cluster
+            def self.example
+              Hostname.example 'cluster'
+            end
+          end
+
+          module Localhost
+            def self.example
+              'localhost'
+            end
           end
 
           module Other

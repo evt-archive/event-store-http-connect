@@ -1,5 +1,6 @@
 require 'securerandom'
 
+require 'event_store/http/connect/controls/cluster'
 require 'event_store/http/connect/controls/ip_address'
 require 'event_store/http/connect/controls/host'
 require 'event_store/http/connect/controls/hostname'

@@ -3,8 +3,8 @@ module EventStore
     class Connect
       module NetHTTP
         module Assertions
-          def connected?(host: nil, port: nil)
-            unless host.nil? || host == self.address
+          def connected?(ip_address: nil, port: nil)
+            unless ip_address.nil? || ip_address == self.address
               return false
             end
 

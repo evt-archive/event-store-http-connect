@@ -1,5 +1,5 @@
 {
-  "host": "localhost",
+  "host": "eventstore.local",
   "port": 2113,
   "continueTimeout": 1,
   "keepAliveTimeout": 2,

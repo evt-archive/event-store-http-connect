@@ -11,7 +11,7 @@ context "Connecting To EventStore HTTP Interface" do
     test "Connection is established with host and port specified by settings" do
       assert connection do
         connected?(
-          host: Controls::Host.example,
+          ip_address: Controls::IPAddress.example,
           port: Controls::Port.example
         )
       end
