@@ -3,8 +3,6 @@ module EventStore
     class Connect
       include Log::Dependency
 
-      configure :connect
-
       dependency :resolve_host, DNS::ResolveHost
 
       setting :host
@@ -28,6 +26,20 @@ module EventStore
       def self.call(settings=nil, namespace: nil, host: nil)
         instance = build settings, namespace: namespace
         instance.(host)
+      end
+
+      def self.configure(receiver, settings=nil, namespace: nil, connect: nil, attr_name: nil)
+        attr_name ||= :connect
+
+        if connect.nil?
+          instance = build settings, namespace: namespace
+        else
+          instance = connect
+        end
+
+        receiver.public_send "#{attr_name}=", instance
+
+        instance
       end
 
       def call(host=nil, &block)
