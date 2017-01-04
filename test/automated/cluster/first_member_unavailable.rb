@@ -9,6 +9,8 @@ context "Connecting To EventStore Cluster, First Member Is Unavailable" do
 
   Controls::Cluster::ResolveHost.configure connect, ip_addresses: ip_addresses
 
+  telemetry_sink = EventStore::HTTP::Connect.register_telemetry_sink connect
+
   connection = connect.(host)
 
   test "Net::HTTP instance is returned" do
@@ -20,6 +22,14 @@ context "Connecting To EventStore Cluster, First Member Is Unavailable" do
 
     assert connection do
       connected? ip_address: control_ip_address
+    end
+  end
+
+  context "Telemetry" do
+    test "Failed connection attempt made with first member is recorded" do
+      assert telemetry_sink do
+        recorded_connection_attempt_failed?
+      end
     end
   end
 end

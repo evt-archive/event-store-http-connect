@@ -4,6 +4,7 @@ module EventStore
       include Log::Dependency
 
       dependency :resolve_host, DNS::ResolveHost
+      dependency :telemetry, ::Telemetry
 
       setting :host
       setting :port
@@ -19,6 +20,7 @@ module EventStore
 
         instance = new
         DNS::ResolveHost.configure instance
+        ::Telemetry.configure instance
         settings.set instance, *namespace
         instance
       end
@@ -42,6 +44,12 @@ module EventStore
         instance
       end
 
+      def self.register_telemetry_sink(instance)
+        sink = Telemetry::Sink.new
+        instance.telemetry.register sink
+        sink
+      end
+
       def call(host=nil, &block)
         log_attributes = LogAttributes.get self, host: host
 
@@ -54,8 +62,13 @@ module EventStore
         rescue DNS::ResolveHost::ResolutionError => error
           error_message = "Could not connect to EventStore (#{log_attributes}, Error: #{error.class})"
           logger.error error_message
+
+          record_host_resolution_failed host, error
+
           raise ConnectionError, error
         end
+
+        record_host_resolved host, ip_addresses
 
         net_http = nil
 
@@ -70,8 +83,12 @@ module EventStore
           begin
             net_http.start
 
+            record_connection_established host, ip_address, net_http
+
             break
           rescue Errno::EADDRNOTAVAIL, Errno::ECONNREFUSED, SocketError => error
+            record_connection_attempt_failed host, ip_address, error
+
             error_message = "Could not connect to EventStore (#{log_attributes}, IPAddress: #{ip_address} (#{index.next} of #{ip_addresses.count}), Error: #{error.class})"
 
             if index + 1 == ip_addresses.count
@@ -107,6 +124,38 @@ module EventStore
         logger.debug { "Resolved IP address from host (Host: #{host}, IPAddresses: #{ip_addresses.inspect})" }
 
         ip_addresses
+      end
+
+      def record_connection_established(host, ip_address, connection)
+        record = Telemetry::ConnectionEstablished.new host, ip_address, port, connection
+
+        telemetry.record :connection_established, record
+
+        record
+      end
+
+      def record_connection_attempt_failed(host, ip_address, error)
+        record = Telemetry::ConnectionAttemptFailed.new host, ip_address, port, error
+
+        telemetry.record :connection_attempt_failed, record
+
+        record
+      end
+
+      def record_host_resolved(host, ip_addresses)
+        record = Telemetry::HostResolved.new host, ip_addresses
+
+        telemetry.record :host_resolved, record
+
+        record
+      end
+
+      def record_host_resolution_failed(host, error)
+        record = Telemetry::HostResolutionFailed.new host, error
+
+        telemetry.record :host_resolution_failed, record
+
+        record
       end
 
       def port
