@@ -73,12 +73,7 @@ module EventStore
         net_http = nil
 
         ip_addresses.each_with_index do |ip_address, index|
-          net_http = Net::HTTP.new ip_address, port
-
-          net_http.continue_timeout = continue_timeout unless continue_timeout.nil?
-          net_http.keep_alive_timeout = keep_alive_timeout unless keep_alive_timeout.nil?
-          net_http.open_timeout = open_timeout unless open_timeout.nil?
-          net_http.read_timeout = read_timeout unless read_timeout.nil?
+          net_http = new_connection ip_address
 
           begin
             net_http.start
@@ -156,6 +151,17 @@ module EventStore
         telemetry.record :host_resolution_failed, record
 
         record
+      end
+
+      def new_connection(ip_address)
+        net_http = Net::HTTP.new ip_address, port
+
+        net_http.continue_timeout = continue_timeout unless continue_timeout.nil?
+        net_http.keep_alive_timeout = keep_alive_timeout unless keep_alive_timeout.nil?
+        net_http.open_timeout = open_timeout unless open_timeout.nil?
+        net_http.read_timeout = read_timeout unless read_timeout.nil?
+
+        net_http
       end
 
       def port
