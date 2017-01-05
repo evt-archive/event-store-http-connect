@@ -25,9 +25,9 @@ module EventStore
         instance
       end
 
-      def self.call(settings=nil, namespace: nil, host: nil)
+      def self.call(settings=nil, namespace: nil, host: nil, &block)
         instance = build settings, namespace: namespace
-        instance.(host)
+        instance.(host, &block)
       end
 
       def self.configure(receiver, settings=nil, namespace: nil, connect: nil, attr_name: nil)
