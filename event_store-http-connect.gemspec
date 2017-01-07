@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 Gem::Specification.new do |s|
   s.name = 'evt-event_store-http-connect'
-  s.version = '0.0.0.1'
+  s.version = '0.1.0.0'
   s.summary = "Connection library to EventStore's HTTP interface"
   s.description = ' '
 
