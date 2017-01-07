@@ -96,9 +96,11 @@ module EventStore
           end
         end
 
-        unless block.nil?
+        if block.nil?
+          return_value = net_http
+        else
           begin
-            block.(net_http)
+            return_value = block.(net_http)
           ensure
             net_http.finish
           end
@@ -106,7 +108,7 @@ module EventStore
 
         logger.info { "HTTP connection to EventStore established (#{log_attributes}, IPAddress: #{net_http.address})" }
 
-        net_http
+        return_value
       end
 
       def resolve_ip_address(host)

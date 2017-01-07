@@ -9,14 +9,27 @@ context "Connecting To EventStore HTTP Interface, Block Is Passed" do
     connection = nil
 
     test "Active connection to EventStore is supplied to block" do
-      connection = connect.() do |conn|
+      connect.() do |conn|
         assert conn do
           connected?
         end
       end
     end
 
+    test "Value returned by block is returned" do
+      return_value = connect.() do
+        :some_return_value
+      end
+
+      assert return_value == :some_return_value
+    end
+
     test "Connection is closed before returning" do
+      connection = nil
+      connect.() do |conn|
+        connection = conn
+      end
+
       assert connection do
         closed?
       end
